@@ -68,9 +68,10 @@
                 <span th:text="${a.text}"></span>
             </div>
 
-            <form th:object="${newanswer}" th:action="@{'/notification/addanswer/'+${oneNotification.numer}}" th:method="post" class="form-horizontal">
+            <form th:object="${newanswer}" th:action="@{/notification/addanswer/}" th:method="post" class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label">Odpowiedz:</label>
+                    <input type="hidden" name="notificationNumer" th:value="${oneNotification.numer}" th:name="@{notificationNumer}">
                     <textarea type="text" class="form-control" th:field="*{text}" rows="5"></textarea>
                     <br/>
                 </div>

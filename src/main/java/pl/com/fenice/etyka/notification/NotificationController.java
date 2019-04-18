@@ -61,21 +61,14 @@ public class NotificationController {
         }
     }
 
-    @RequestMapping(value = "/addanswer/{notificationNumer}", method = RequestMethod.POST)
-    public String addtoDBAnswer(@Valid Answer answer, BindingResult bindingResult, @PathVariable("notificationNumer") String notificationNumer, Model model){
-
-        //TODO zabrać numer tego zgłoszenia które dodajemy odpowiedź i przekazać POST-em do onenotification, a  nie redirect do show/[numer]
-        // albo zamienić numer zamiast ID
-
-
-            Notification notification = new Notification();
-            notification.setNumer(notificationNumer);
+    @RequestMapping(value = "/addanswer", method = RequestMethod.POST)
+    public String addtoDBAnswer(@Valid Answer answer, BindingResult bindingResult, @ModelAttribute("notificationNumer") String notificationNumer, Model model){
 
             answerService.createAnswer(answer, notificationNumer);
+            Notification notification = new Notification();
+            notification.setNumer(notificationNumer);
             model.addAttribute("notification", notification);
-//todo przekazać postem ten obiekt notification do openone
-            return "redirect:/notification/openone";
-            //return new ModelAndView(notification/openone, model);
+            return "addanswerauto";
     }
 
     @GetMapping("/showall")

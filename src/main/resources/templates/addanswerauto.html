@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+</head>
+<body>
+
+            <form name="myRedirectForm" th:action="@{/notification/openone/}" th:object="${notification}" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label" >Kod zgłoszenia:</label>
+                    <input type="text" class="form-control" autocomplete="off" id="numer" th:field="*{numer}"/>
+                    <noscript>
+                        <input type="submit" value="Click here to continue" />
+                    </noscript>
+                </div>
+            </form>
+
+            <script th:inline="javascript">
+
+                $(document).ready(function() {
+            document.myRedirectForm.submit();
+        });
+
+            </script>
+
+</body>
+</html>
