@@ -12,7 +12,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/notification/showall").authenticated()
+                .antMatchers("/notification/showall/").authenticated()
                 .antMatchers("/notification/show/**").authenticated()
 //                .antMatchers("/notification/add/").permitAll()
 //                .antMatchers("/notification/openone/").permitAll()
