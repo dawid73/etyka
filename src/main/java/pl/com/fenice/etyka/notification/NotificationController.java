@@ -1,5 +1,7 @@
 package pl.com.fenice.etyka.notification;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import pl.com.fenice.etyka.answer.Answer;
 import pl.com.fenice.etyka.answer.AnswerService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping(value = "/notification")
 public class NotificationController {
+
 
     private final NotificationService notificationService;
     private final AnswerService answerService;
@@ -117,6 +121,13 @@ public class NotificationController {
     }
 
 
+
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @ResponseBody
+    public String currentUserName(Principal principal) {
+        System.out.printf("&&&&&&&&&&&&&&&&& Name:" + principal.getName());
+        return principal.getName();
+    }
 
 //    Losowanie numeru zgłoszenia
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
