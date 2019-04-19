@@ -6,17 +6,20 @@
     <title>Dodaje nowe zgłoszenie</title>
     <!-- Custom styles for this template -->
     <link rel="stylesheet" th:href="@{/public/css/custom.css}"/>
+    <!-- Custom styles for chat-box -->
+    <link rel="stylesheet" th:href="@{/public/css/chat.css}"/>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
 
     <!-- Custom fonts for this template -->
     <link th:href="@{/public/css/all.min.css}" rel="stylesheet">
     <link th:href="@{/public/css/simple-line-icons.css}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+
 
 </head>
 <body>
-
 
 
 <!-- Navigation -->
@@ -33,7 +36,8 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-9 mx-auto">
-                <img class="d-block mx-auto mb-4" src="https://www.fenice.com.pl/wp-content/uploads/2019/03/logo_261x140_tr.png">
+                <img class="d-block mx-auto mb-4"
+                     src="https://www.fenice.com.pl/wp-content/uploads/2019/03/logo_261x140_tr.png">
                 <h1 class="mb-5">ETYKA</h1>
 
 
@@ -44,7 +48,7 @@
 
 <!-- Menu -->
 <div class="container">
-    <div class="btn-group menu-button" role="group" aria-label="Basic example" >
+    <div class="btn-group menu-button" role="group" aria-label="Basic example">
         <a href="/notification/start/" class="btn btn-info">Strona główna</a>
         <a href="/notification/add/" class="btn btn-info"> Dodaj zgłoszenie</a>
         <a href="/notification/search/" class="btn btn-info"> Przeglądaj zgłoszenie</a>
@@ -56,22 +60,61 @@
 <main role="main" class="container">
 
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
 
             <h4><p th:text="${oneNotification.topic}"/></h4>
-            <p class="lead"><p th:text="${oneNotification.text}"/></p>
+            <p class="lead">
+            <p th:text="${oneNotification.text}"/></p>
 
 
+            <div class="messaging">
+                <div class="inbox_msg">
+                    <div class="mesgs">
+                        <div class="msg_history">
 
-            <div class="alert alert-primary" role="alert" th:each="a : ${answer}">
-                <span th:text="${a.text}"></span>
+                            <div th:each="a : ${answer}">
+
+                                <span th:if="${a.author} == 'NotLogin'">
+                                     <div class="outgoing_msg">
+                                        <div class="sent_msg">
+                                            <p><span th:text="${a.text}"></span></p>
+                                            <span class="time_date"> <span th:text="${a.dateTime}"></span></span>
+                                        </div>
+                                     </div>
+                                </span>
+
+
+                                <span th:if="${a.author} == 'eln'">
+                                        <div class="incoming_msg">
+                                            <div class="incoming_msg_img"> <img
+                                                    th:src="@{/public/images/logo_chat.png}" alt="sunil">
+                                            </div>
+                                            <div class="received_msg">
+                                                <div class="received_withd_msg">
+                                                    <p><span th:text="${a.text}"></span></p>
+                                                    <span class="time_date"> <span
+                                                            th:text="${a.dateTime}"></span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <form th:object="${newanswer}" th:action="@{/notification/addanswer/}" th:method="post" class="form-horizontal">
+
+            <form th:object="${newanswer}" th:action="@{/notification/addanswer/}" th:method="post"
+                  class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label">Odpowiedz:</label>
-                    <input type="hidden" name="notificationNumer" th:value="${oneNotification.numer}" th:name="@{notificationNumer}">
+                    <input type="hidden" name="notificationNumer" th:value="${oneNotification.numer}"
+                           th:name="@{notificationNumer}">
                     <textarea type="text" class="form-control" th:field="*{text}" rows="5"></textarea>
                     <br/>
                 </div>
@@ -81,12 +124,10 @@
             </form>
 
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-1"></div>
     </div>
 
 </main>
-
-
 
 
 <!-- Footer -->
@@ -105,7 +146,8 @@
                         <a href="#">Polityka prywatności</a>
                     </li>
                 </ul>
-                <p class="text-muted small mb-4 mb-lg-0"><a href="/notification/showall/">&copy;</a> EDF Fenice Poland 2019. All Rights Reserved.</p>
+                <p class="text-muted small mb-4 mb-lg-0"><a href="/notification/showall/">&copy;</a> EDF Fenice Poland
+                    2019. All Rights Reserved.</p>
             </div>
 
         </div>

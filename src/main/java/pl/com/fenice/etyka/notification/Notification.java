@@ -3,6 +3,7 @@ package pl.com.fenice.etyka.notification;
 import pl.com.fenice.etyka.answer.Answer;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -10,11 +11,14 @@ public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    Integer id;
 
-    public String topic;
+    String topic;
 
-    public String numer;
+    String numer;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    Date dateTime;
 
     public String getNumer() {
         return numer;
@@ -60,5 +64,13 @@ public class Notification {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 }

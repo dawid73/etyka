@@ -1,20 +1,18 @@
 package pl.com.fenice.etyka.notification;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.com.fenice.etyka.answer.Answer;
 import pl.com.fenice.etyka.answer.AnswerService;
-
 import javax.validation.Valid;
 import java.security.Principal;
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +57,7 @@ public class NotificationController {
             String numerZgloszenia = randomString(8);
 
             notification.setNumer(numerZgloszenia);
+            notification.setDateTime(new Date());
             model.addAttribute("numerZgloszenia", numerZgloszenia);
             notificationService.saveOrUpdate(notification);
             return "created";
@@ -66,8 +65,10 @@ public class NotificationController {
     }
 
     @RequestMapping(value = "/addanswer", method = RequestMethod.POST)
-    public String addtoDBAnswer(@Valid Answer answer, BindingResult bindingResult, @ModelAttribute("notificationNumer") String notificationNumer, Model model){
+    public String addtoDBAnswer(@Valid Answer answer, BindingResult bindingResult, @ModelAttribute("notificationNumer") String notificationNumer, Model model, Principal principal){
 
+            answer.setDateTime(new Date());
+            answer.setAuthor(returnUserName(principal));
             answerService.createAnswer(answer, notificationNumer);
             Notification notification = new Notification();
             notification.setNumer(notificationNumer);
@@ -109,6 +110,7 @@ public class NotificationController {
             model.addAttribute("oneNotification", oneNotification.get());
             model.addAttribute("newanswer", new Answer());
             List<Answer> answer = answerService.showAnswerByIdNotification(oneNotification.get());
+
             if(!answer.isEmpty()){
                 model.addAttribute("answer", answer);
             }
@@ -124,9 +126,16 @@ public class NotificationController {
 
     @RequestMapping(value = "/username", method = RequestMethod.GET)
     @ResponseBody
-    public String currentUserName(Principal principal) {
-        System.out.printf("&&&&&&&&&&&&&&&&& Name:" + principal.getName());
-        return principal.getName();
+    public String returnUserName(Principal principal) {
+        String name;
+
+        if(principal != null) {
+            if (principal.getName() == null) {
+                name = "NotLogin";
+            } else name = principal.getName();
+        }else name = "NotLogin";
+
+        return name;
     }
 
 //    Losowanie numeru zgłoszenia

@@ -4,6 +4,7 @@ import pl.com.fenice.etyka.notification.Notification;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 public class Answer {
@@ -14,6 +15,19 @@ public class Answer {
 
     @Lob
     String text;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    Date dateTime;
+
+    String author;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
     public String getText() {
         return text;
@@ -42,5 +56,13 @@ public class Answer {
 
     public void setNotification(Notification notification) {
         this.notification = notification;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 }
